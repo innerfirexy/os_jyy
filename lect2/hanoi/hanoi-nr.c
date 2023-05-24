@@ -20,11 +20,21 @@ void hanoi(int n, char from, char to, char via) {
   printf("Initial top->pc=%d, top->n=%d\n", top->pc, top->n);
 
   call(n, from, to, via);
-
   printf("After first call, top->pc= %d, top->n=%d, offset=%d\n", top->pc, top->n, offset2());
 
   int counter = 0;
   for (Frame *f; (f = top) >= stk; f->pc++) {
+    //printf("Prior iter %d, f->pc=%d, f->n=%d, offset=%d\n", counter, f->pc, f->n, offset2());
+    
+    printf("Prior to iter %d\n", counter);
+    printf("-----------\n");
+    int i = offset2();
+    while (i >= 0) {
+	printf("|pc=%d| n=%d|\n", stk[i].pc, stk[i].n);
+	i--;
+    }
+    printf("-----------\n");
+
     n = f->n; from = f->from; to = f->to; via = f->via;
     switch (f->pc) {
       case 0: if (n == 1) { printf("%c -> %c\n", from, to); goto(4); } break;
@@ -34,7 +44,7 @@ void hanoi(int n, char from, char to, char via) {
       case 4: ret();                        break;
       default: assert(0);
     }
-    printf("After step %d, f->pc=%d, f->n=%d, offset=%d\n", counter, f->pc, f->n, offset2());
+    //printf("After iter %d, f->pc=%d, f->n=%d, offset=%d\n", counter, f->pc, f->n, offset2());
     counter++;
   }
 }
