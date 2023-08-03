@@ -1,3 +1,5 @@
+#include <stack>
+
 void hanoi_none_recursive(int n, char from, char to, char via) {
     struct Element {
 	int n; char from; char to; char via;
@@ -17,7 +19,10 @@ void hanoi_none_recursive(int n, char from, char to, char via) {
 	if (n==1) {
 	    printf("%c -> %c\n", from, to);
 	} else {
-	    //
+	    //todo:
+	    elements.push({n-1, via, to, from});
+	    elements.push({1, from, to, via});
+	    elements.push({n-1, from, via, to});
 	}
     }
 }
